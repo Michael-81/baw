@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>baw</artifactId>
+        <groupId>de.baw.wps</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>baw-xml</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    
+    <properties>
+        <n52WPS.version>3.3.0</n52WPS.version>
+        <geotools.version>8.7</geotools.version>
+        <!--<geotools.version>2.7.5</geotools.version>-->
+        <apache.axis2.version>1.5.1</apache.axis2.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <xbeans.version>2.6.0</xbeans.version>
+    </properties>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            
+            <plugin>                                                                         
+                <groupId>org.apache.maven.plugins</groupId>                                  
+                <artifactId>maven-javadoc-plugin</artifactId>                                
+                <version>2.9</version>                                                       
+                <configuration>                                                              
+                    <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>                         
+                    <docletArtifact>                                                         
+                        <groupId>org.umlgraph</groupId>                                      
+                        <artifactId>umlgraph</artifactId>                                    
+                        <version>5.6</version>                                               
+                    </docletArtifact>                                                        
+                    <additionalparam>-views -all</additionalparam>                           
+                    <useStandardDocletOptions>true</useStandardDocletOptions>                
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+                <groupId>org.apache.xmlbeans</groupId>
+                <artifactId>xmlbeans</artifactId>
+                <version>${xbeans.version}</version>
+            </dependency>
+            
+        <dependency>
+            <groupId>org.n52.sensorweb</groupId>
+            <artifactId>52n-xml-om-v20</artifactId>
+            <version>1.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.n52.sensorweb</groupId>
+            <artifactId>52n-xml-gmlcov-v10</artifactId>
+            <version>1.1.5</version>
+        </dependency>
+        
+    </dependencies>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.7.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+    <repositories>
+        <repository>
+            <id>n52-snapshot</id>
+            <name>n52-snapshot</name>
+            <url>http://52north.org/maven/repo/snapshots/</url>
+        </repository>
+        <repository>
+            <id>n52-releases</id>
+            <name>n52-releases</name>
+            <url>http://52north.org/maven/repo/releases/</url>
+        </repository>
+        <repository>
+            <id>osgeo</id>
+            <name>Open Source Geospatial Foundation Repository</name>
+            <url>http://download.osgeo.org/webdav/geotools/</url>
+        </repository>
+    </repositories>
+</project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wps:Execute service="WPS" version="1.0.0" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsExecute_request.xsd">
+
+  <ows:Identifier>de.baw.wps.aws1test.ReadOM</ows:Identifier>
+
+<wps:DataInputs>
+
+<wps:Input>
+	<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">inputOM</ows:Identifier>
+	<wps:Reference mimeType="text/xml" xlink:href="http://mdi-dienste.baw.de/baw-sos/sos?request=getObservation&amp;observedProperty=Mesh2_Wasserstand_2d&amp;procedure=http%3A%2F%2Fwww.baw.de%2Fmethoden%2Findex.php5%2FUNTRIM2007%23wl.a.2D.u07.2006.kagm144&amp;service=SOS&amp;spatialFilter=om:featureOfInterest/Mesh2_node,53.8673630000,8.7180780000,53.8673630000,8.7180780000,urn:ogc:def:crs:EPSG::4326&amp;temporalFilter=om:phenomenonTime,2006-01-01T00:00:00Z/2006-01-03T00:00:00Z&amp;version=2.0.0" xmlns:xlink="http://www.w3.org/1999/xlink" method="GET"/>
+</wps:Input>
+
+
+</wps:DataInputs>
+
+  <wps:ResponseForm>
+  	 <wps:ResponseDocument storeExecuteResponse="false">
+    <wps:Output asReference="false">
+    <ows:Identifier>outputXML</ows:Identifier>
+    </wps:Output>
+	</wps:ResponseDocument>
+  </wps:ResponseForm>
+</wps:Execute>

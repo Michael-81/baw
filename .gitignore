@@ -1,0 +1,18 @@
+*.class
+*.xml.OUT
+
+.project
+*/.settings/**
+.classpath
+*.prefs
+
+
+aws/52n-wps.log
+aws/catalina.out
+aws/build_baw.xml
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*/target/**
