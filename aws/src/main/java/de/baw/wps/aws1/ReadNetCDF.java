@@ -25,7 +25,7 @@ import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
 
-@Algorithm(version = "1.0.0", abstrakt="Liest Daten aus der übergebenen NetCDF Datei ein und gibt sie als O&M XML aus")
+@Algorithm(version = "1.0.0", abstrakt="Reads data set from NetCDF file and writes it into O&M XML.")
 public class ReadNetCDF extends AbstractAnnotatedAlgorithm{
 
 	NetcdfFile inputNC;

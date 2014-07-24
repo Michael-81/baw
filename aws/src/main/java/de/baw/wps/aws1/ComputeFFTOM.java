@@ -19,19 +19,19 @@ import de.baw.wps.binding.OMBinding;
 import de.baw.xml.OMdocBuilder;
 import de.baw.xml.OMexplorer;
 
-@Algorithm(version = "1.0.0", abstrakt="Frequenzanalyse mittels FFT der Eingangszeitreihe")
+@Algorithm(version = "1.0.0", abstrakt="Frequency analysis using FFT of the input time series")
 public class ComputeFFTOM {
 	
 	private String outputXML;
 	private OMObservationDocument omInput;
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ");
 	
-    @ComplexDataInput(identifier="seriesInput", abstrakt="Zeitreihe mit aequidistanten Zeitschritten im O&M XML Format", binding=OMBinding.class)
+    @ComplexDataInput(identifier="seriesInput", abstrakt="Time series with equidistant time steps. O&M-XML format is expected", binding=OMBinding.class)
     public void setModellNetCDF(OMObservationDocument om) {
     	this.omInput = om;
     }
 	
-	@LiteralDataOutput(identifier = "outputXML", abstrakt="Amplitudenspektrum der Eingangszeitreihe im O&M XML Format", binding=LiteralStringBinding.class)
+	@LiteralDataOutput(identifier = "outputXML", abstrakt="Single side amplitude spectrum of the input time series. O&M-XML", binding=LiteralStringBinding.class)
 	public String getResult() {
 	 return this.outputXML;
 	}

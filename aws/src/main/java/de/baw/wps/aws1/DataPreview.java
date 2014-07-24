@@ -37,43 +37,43 @@ import de.baw.wps.binding.OMBinding;
 import de.baw.xml.OMdocBuilder;
 import de.baw.xml.OMexplorer;
 
-@Algorithm(version = "1.0.0", abstrakt="BAW master process")
+@Algorithm(version = "1.0.0", abstrakt="Process Chain to retrieve model and measured data.")
 public class DataPreview extends AbstractAnnotatedAlgorithm{
 	private String dataLinkMeasurement, varNameMeasurement,startTime,endTime;
 	private String outputValuesModelInput="";
 	private String outputValuesMeasurementInput="";
 	private OMObservationDocument inputOM;
 	
-    @ComplexDataInput(identifier="inputOM", abstrakt="Referenz auf eine OM Datei", binding=OMBinding.class)
+    @ComplexDataInput(identifier="inputOM", abstrakt="Reference to a O&M file (SOS getObservation)", binding=OMBinding.class)
     public void setModellNetCDF(OMObservationDocument om) {
     	this.inputOM = om;
     }
 	
-	@LiteralDataInput(identifier="startTime", abstrakt="Beginn des ausgewählten zeitfensters")
+	@LiteralDataInput(identifier="startTime", abstrakt="Beginning of the choosen time window")
 	public void setStartTime(String startTime) {
 	 this.startTime = startTime;
 	}
 	
-	@LiteralDataInput(identifier="endTime", abstrakt="Ende des ausgewählten zeitfensters")
+	@LiteralDataInput(identifier="endTime", abstrakt="End of the choosen time window")
 	public void setEndTime(String endTime) {
 	 this.endTime = endTime;
 	}
 	
-	@LiteralDataInput(identifier="dataLinkMeasurement", abstrakt="Link zur Messdatendatei")
+	@LiteralDataInput(identifier="dataLinkMeasurement", abstrakt="Link to data file in NetCDF file format")
 	public void setDatalinkTwo(String dataLinkMeasurement) {
 	 this.dataLinkMeasurement = dataLinkMeasurement;
 	}
 	
-	@LiteralDataInput(identifier="varNameMeasurement", abstrakt="Name der zweiten auszulesenden Variable")
+	@LiteralDataInput(identifier="varNameMeasurement", abstrakt="Name of the variable to be read from the NetCDF file")
 	public void setVarNameTwo(String varNameMeasurement) {
 	 this.varNameMeasurement = varNameMeasurement;
 	}
 	
-	@LiteralDataOutput(identifier = "outputValuesModelInput", binding=LiteralStringBinding.class)
+	@LiteralDataOutput(identifier = "outputValuesModelInput", abstrakt="Input model data in the O&M XML format", binding=LiteralStringBinding.class)
 	public String getOutputValuesModelInput() {
 	 return this.outputValuesModelInput;
 	}
-	@LiteralDataOutput(identifier = "outputValuesMeasurementInput", binding=LiteralStringBinding.class)
+	@LiteralDataOutput(identifier = "outputValuesMeasurementInput", abstrakt="Input measurement data in the O&M XML format", binding=LiteralStringBinding.class)
 	public String getOutputValuesMeasurementInput() {
 	 return this.outputValuesMeasurementInput;
 	}

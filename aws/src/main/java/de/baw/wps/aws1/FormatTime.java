@@ -23,7 +23,7 @@ import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
 import de.baw.xml.OMdocBuilder;
 import de.baw.xml.OMexplorer;
 
-@Algorithm(version = "1.0.0", abstrakt="Formatiert einen Zeitvektor von Epoch-Time in Sekunden seit 1.1.1900 in ein beliebiges Format")
+@Algorithm(version = "1.0.0", abstrakt="Format a time series from epoch time in seconds since 1.1.1900 into any other format.")
 public class FormatTime {
 	
 	private String timeFormat;
@@ -36,12 +36,12 @@ public class FormatTime {
 //		this.timeSeries = timeSeries;
 //	}
 	
-	@LiteralDataInput(identifier="timeSeries", abstrakt="Zeitreihe deren Zeitvektor formatiert werden soll im O&M XML Format")
+	@LiteralDataInput(identifier="timeSeries", abstrakt="input time series in the O&M XML format")
 	public void setTimeSeries(String timeSeries) {
 	 this.timeSeries = timeSeries;
 	}
 	
-	@LiteralDataInput(identifier="timeFormat", abstrakt="Format der Zeitausgabe")
+	@LiteralDataInput(identifier="timeFormat", abstrakt="date time format")
 	public void setTimeFormat(String timeFormat) {
 	 this.timeFormat = timeFormat;
 	}
@@ -51,7 +51,7 @@ public class FormatTime {
 //	 return this.outputXML;
 //	}
 	
-	@LiteralDataOutput(identifier = "outputXML", abstrakt="Formatierte Zeitreihe im O&M XML Foramt", binding=LiteralStringBinding.class)
+	@LiteralDataOutput(identifier = "outputXML", abstrakt="formatted time series in the O&M XML format", binding=LiteralStringBinding.class)
 	public String getResult() {
 	 return this.outputXML;
 	}

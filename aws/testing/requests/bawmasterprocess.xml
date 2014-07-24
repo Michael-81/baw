@@ -1,13 +1,13 @@
 <wps:Execute xmlns:wps="http://www.opengis.net/wps/1.0.0" version="1.0.0" service="WPS" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsAll.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">de.baw.wps.aws1.CompareChain</ows:Identifier>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">de.baw.wps.aws1.BAWMasterProcess</ows:Identifier>
 <wps:DataInputs>
 <wps:Input>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">inputOM</ows:Identifier>
-<wps:Reference mimeType="text/xml" xlink:href="http://mdi-test.baw.de/baw-sos/sos?request=getObservation&observedProperty=Mesh2_Wasserstand_2d&procedure=http://www.baw.de/methoden/index.php5/UNTRIM2007#wl.a.2D.u07.2006.kagm144&service=SOS&spatialFilter=om:featureOfInterest/Mesh2_node,53.8673630000,8.7180780000,53.8673630000,8.7180780000,urn:ogc:def:crs:EPSG::4326&temporalFilter=om:phenomenonTime,2006-01-01T00:00:00Z/2006-01-03T00:00:00Z&version=2.0.0" xmlns:xlink="http://www.w3.org/1999/xlink" method="GET"/>
+<wps:Reference mimeType="text/xml" xlink:href="http://mdi-dienste.baw.de/baw-sos/sos?request=getObservation&amp;observedProperty=Mesh2_Wasserstand_2d&amp;procedure=http%3A%2F%2Fwww.baw.de%2Fmethoden%2Findex.php5%2FUNTRIM2007%23wl.a.2D.u07.2006.kagm144&amp;service=SOS&amp;spatialFilter=om:featureOfInterest/Mesh2_node,53.8673630000,8.7180780000,53.8673630000,8.7180780000,urn:ogc:def:crs:EPSG::4326&amp;temporalFilter=om:phenomenonTime,2006-01-01T00:00:00Z/2006-01-03T00:00:00Z&amp;version=2.0.0" xmlns:xlink="http://www.w3.org/1999/xlink" method="GET"/>
 </wps:Input>
 <wps:Input>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">dataLinkMeasurement</ows:Identifier>
-<wps:Data><wps:LiteralData>http://kfkiserver/test/Cuxhaven_2006.nc</wps:LiteralData></wps:Data>
+<wps:Data><wps:LiteralData>http://mdi-dienste.baw.de/testdaten/Cuxhaven_2006.nc</wps:LiteralData></wps:Data>
 </wps:Input>
 <wps:Input>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">varNameMeasurement</ows:Identifier>
@@ -36,6 +36,16 @@
 </wps:Output>
 <wps:Output>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">outputValuesDifference</ows:Identifier>
+<ows:Title xmlns:ows="http://www.opengis.net/ows/1.1"/>
+<ows:Abstract xmlns:ows="http://www.opengis.net/ows/1.1"/>
+</wps:Output>
+<wps:Output>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">outputValuesFFTModel</ows:Identifier>
+<ows:Title xmlns:ows="http://www.opengis.net/ows/1.1"/>
+<ows:Abstract xmlns:ows="http://www.opengis.net/ows/1.1"/>
+</wps:Output>
+<wps:Output>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">outputValuesFFTMeasurement</ows:Identifier>
 <ows:Title xmlns:ows="http://www.opengis.net/ows/1.1"/>
 <ows:Abstract xmlns:ows="http://www.opengis.net/ows/1.1"/>
 </wps:Output>
