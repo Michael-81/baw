@@ -4,7 +4,7 @@ WPS processes provided by the federal waterways engineering and research institu
 
 **compilation**
 
-1. `mvn install` (avoid clean as long as baw-fft isn't fixed, see below.)
+1. `mvn clean install`
 
 
 **deployment** //see also [aws/build.xml](aws/build.xml)
