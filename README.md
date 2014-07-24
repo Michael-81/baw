@@ -3,7 +3,8 @@ WPS processes provided by the federal waterways engineering and research institu
 ## usage
 
 ** compilation**
-1. `mvn install` (avoid clean as long as baw-fft isn't fixed, see below.)
+
+1. `mvn clean install`
 
 
 **deployment** //see also [aws/build.xml](aws/build.xml)
@@ -27,9 +28,3 @@ WPS processes provided by the federal waterways engineering and research institu
 * `baw-fft::0.0.1-SNAPSHOT`
 * `baw-utils::0.0.1-SNAPSHOT`
 * `baw-xml::0.0.1-SNAPSHOT`
-
-## TODO
-
-* `fix netcdf usage.`
-* `provide aws/testing/requests/masterprocess.xml.`
-* `fix/clean up dependencies.`
