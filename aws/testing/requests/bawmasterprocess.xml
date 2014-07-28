@@ -1,5 +1,5 @@
 <wps:Execute xmlns:wps="http://www.opengis.net/wps/1.0.0" version="1.0.0" service="WPS" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsAll.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">de.baw.wps.aws1.CompareChain</ows:Identifier>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">de.baw.wps.aws1.BAWMasterProcess</ows:Identifier>
 <wps:DataInputs>
 <wps:Input>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">inputOM</ows:Identifier>
@@ -7,7 +7,7 @@
 </wps:Input>
 <wps:Input>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">dataLinkMeasurement</ows:Identifier>
-<wps:Data><wps:LiteralData>http://kfkiserver/test/Cuxhaven_2006.nc</wps:LiteralData></wps:Data>
+<wps:Data><wps:LiteralData>http://mdi-dienste.baw.de/testdaten/Cuxhaven_2006.nc</wps:LiteralData></wps:Data>
 </wps:Input>
 <wps:Input>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">varNameMeasurement</ows:Identifier>
@@ -36,6 +36,16 @@
 </wps:Output>
 <wps:Output>
 <ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">outputValuesDifference</ows:Identifier>
+<ows:Title xmlns:ows="http://www.opengis.net/ows/1.1"/>
+<ows:Abstract xmlns:ows="http://www.opengis.net/ows/1.1"/>
+</wps:Output>
+<wps:Output>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">outputValuesFFTModel</ows:Identifier>
+<ows:Title xmlns:ows="http://www.opengis.net/ows/1.1"/>
+<ows:Abstract xmlns:ows="http://www.opengis.net/ows/1.1"/>
+</wps:Output>
+<wps:Output>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">outputValuesFFTMeasurement</ows:Identifier>
 <ows:Title xmlns:ows="http://www.opengis.net/ows/1.1"/>
 <ows:Abstract xmlns:ows="http://www.opengis.net/ows/1.1"/>
 </wps:Output>

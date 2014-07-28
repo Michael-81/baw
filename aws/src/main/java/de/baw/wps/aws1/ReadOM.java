@@ -11,7 +11,7 @@ import org.n52.wps.algorithm.annotation.LiteralDataOutput;
 import org.n52.wps.server.AbstractAnnotatedAlgorithm;
 import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
 
-@Algorithm(version = "1.0.0", abstrakt = "Liest Daten aus der uebergebenen NetCDF Datei ein und gibt sie als O&M XML aus")
+@Algorithm(version = "1.0.0", abstrakt = "Transforming ComplexData O&M to LiteralData")
 public class ReadOM extends AbstractAnnotatedAlgorithm {
 
     String outputXML;
@@ -22,7 +22,7 @@ public class ReadOM extends AbstractAnnotatedAlgorithm {
         this.inputOM = om;
     }
 
-    @LiteralDataOutput(identifier = "outputXML", abstrakt = "Extracted time series. O&M-XML", binding = LiteralStringBinding.class)
+    @LiteralDataOutput(identifier = "outputXML", abstrakt = "O&M-XML String", binding = LiteralStringBinding.class)
     public String getResult() {
         return this.outputXML;
     }

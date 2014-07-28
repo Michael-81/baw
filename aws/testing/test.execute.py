@@ -84,5 +84,5 @@ def expand(XML):
 
 # Test custom datatypes
 doPost("readom.xml", False, False, True)
-doPost("example.master.xml", False, False, True)
+doPost("bawmasterprocess.xml", False, False, True)
 

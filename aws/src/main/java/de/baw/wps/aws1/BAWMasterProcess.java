@@ -106,24 +106,24 @@ public class BAWMasterProcess extends AbstractAnnotatedAlgorithm{
 		inputsMeasurement.put("startTime", this.startTime);
 		inputsMeasurement.put("endTime", this.endTime);
 		inputsMeasurement.put("metadataUUID", "");
-		String measurementData[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.ReadNetCDF",inputsMeasurement, "NC");
+		String measurementData[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.aws1.ReadNetCDF",inputsMeasurement, "NC");
 				
 		//Harmonsieren der Zeitschritte mittels Spline Interpolation
 		HashMap<String, Object> inputsSpline = new HashMap<String, Object>();
 		inputsSpline.put("seriesModel",seriesModel);
 		inputsSpline.put("seriesConvert", measurementData[0]);
-		String splineData[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.BSpline",inputsSpline, "OC");
+		String splineData[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.aws1.BSpline",inputsSpline, "OC");
 					
 		//Berechnung der Differenz der Eingangszeitreihen
 		HashMap<String, Object> inputsDiff = new HashMap<String, Object>();
 		inputsDiff.put("seriesOne", seriesModel);
 		inputsDiff.put("seriesTwo", splineData[0]);
-		String diffData[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.CompareTimeSeries",inputsDiff, "OC");
+		String diffData[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.aws1.CompareTimeSeries",inputsDiff, "OC");
 		
 		//Frequenzanalyse der Modelldaten
 		HashMap<String, Object> inputsFFT1 = new HashMap<String, Object>();
 		inputsFFT1.put("seriesInput", seriesModel);
-		String fftData1[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.ComputeFFT",inputsFFT1, "OC");
+		String fftData1[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.aws1.ComputeFFT",inputsFFT1, "OC");
 		
 		//Frequenzanalyse der Messdaten
 //		HashMap<String, Object> inputsFFT2 = new HashMap<String, Object>();
@@ -133,7 +133,7 @@ public class BAWMasterProcess extends AbstractAnnotatedAlgorithm{
 		//TEST: ComplexData (OMObservationDocument) statt LiteralData input
 		HashMap<String, Object> inputsFFT3 = new HashMap<String, Object>();
 		inputsFFT3.put("seriesInput", this.inputOM);
-		String fftData3[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.ComputeFFTOM",inputsFFT3, "OM");
+		String fftData3[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.aws1.ComputeFFTOM",inputsFFT3, "OM");
 		
 		//Formatieren der Zeitangaben
 //		HashMap<String, Object> inputsFormat2 = new HashMap<String, Object>();
