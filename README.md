@@ -2,7 +2,7 @@ WPS processes provided by the federal waterways engineering and research institu
 
 ## usage
 
-** compilation**
+**compilation**
 
 1. `mvn clean install`
 

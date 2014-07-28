@@ -1,0 +1,40 @@
+
+<project name="baw-aws" default="dist" basedir=".">
+   
+    <property name="user" value="root" />
+    <property name="host" value="192.168.56.101"/>
+    <property name="port" value="22" />
+    <property name="password" value="vmadmin" />
+    <property name="confdestination" value="/var/lib/tomcat7/webapps/wps/config" />
+    <property name="jardestination" value="/var/lib/tomcat7/webapps/wps/WEB-INF/lib" />
+
+    <description>
+        Deployment suite (hsos). Deploys baw-aws onto kfkiserver.
+    </description>
+ 
+    <target name="dist">
+        <scp file="./wps_config.xml" todir="${user}@${host}:${confdestination}" port="${port}" password="${password}" trust="true"/>
+    
+    	<!--  <sshexec host="${host}" username="${user}" password="${password}" port="${port}" command="chown tomcat6:tomcat6 ${confdestination}/wps_config.xml" trust="true"/>-->
+   
+        <scp file="./target/baw-aws-0.0.1-SNAPSHOT-full.jar" todir="${user}@${host}:${jardestination}" port="${port}" password="${password}" trust="true"/>
+    	<!--  <sshexec host="${host}" username="${user}" password="${password}" port="${port}" command="chown -R tomcat6:tomcat6 /srv/tomcat6/webapps/" trust="true"/>-->
+        <sshexec host="${host}" username="${user}" password="${password}" port="${port}" command="/etc/init.d/tomcat7 restart" trust="true"/>
+    </target>
+ 
+    <!-- empties the remote log -->
+    <target name="flushlogs">
+        <sshexec host="${host}" username="${user}" password="${password}" port="${port}" command="cat /dev/null > /var/log/tomcat7/catalina.out" trust="true"/>
+        <sshexec host="${host}" username="${user}" password="${password}" port="${port}" command="cat /dev/null > /var/log/tomcat7/52n-wps.log" trust="true"/>
+    </target>
+ 
+    <!-- copies the remote log to localhost (./catalina.out)-->
+    <target name="pulllogs">
+        <scp file="${user}@${host}:/var/log/tomcat7/catalina.out" todir="catalina.out" port="${port}" password="${password}" trust="true"/>
+        <scp file="${user}@${host}:/var/log/tomcat7/52n-wps.log" todir="52n-wps.log" port="${port}" password="${password}" trust="true"/>
+    </target>
+    <!--restarts the remote tomcat-->
+    <target name="restart">
+        <sshexec host="${host}" username="${user}" password="${password}" port="${port}" command="/etc/init.d/tomcat7 restart" trust="true"/>
+    </target>
+</project>
