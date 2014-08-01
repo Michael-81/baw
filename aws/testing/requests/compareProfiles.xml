@@ -1,0 +1,30 @@
+<wps:Execute xmlns:wps="http://www.opengis.net/wps/1.0.0" version="1.0.0" service="WPS" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0 http://schemas.opengis.net/wps/1.0.0/wpsAll.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">de.baw.wps.aws2.CompareProfiles</ows:Identifier>
+<wps:DataInputs>
+<wps:Input>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">modelProfile</ows:Identifier>
+<wps:Reference mimeType="text/xml" xlink:href="http://mdi-test.baw.de/baw-wcs/wcs?id=p.2D.cu.IZNF2.bin.nc&amp;subset_time=2010-06-20T07:00:00Z&amp;subset_variable=Mesh1_Stroemungsgeschwindigkeit_m_3d&amp;subset_depth=false" xmlns:xlink="http://www.w3.org/1999/xlink" method="GET"/>
+</wps:Input>
+<wps:Input>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">mesProfile</ows:Identifier>
+<wps:Reference mimeType="text/xml" xlink:href="http://mdi-test.baw.de/baw-wcs/wcs?id=Elbe_100620_depth1D.nc&amp;subset_time=2010-06-20T07:00:00Z&amp;subset_variable=velocity_magnitude&amp;subset_depth=false" xmlns:xlink="http://www.w3.org/1999/xlink" method="GET"/>
+</wps:Input>
+<wps:Input>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">modelProfileExtend</ows:Identifier>
+<wps:Reference mimeType="text/xml" xlink:href="http://mdi-test.baw.de/baw-wcs/wcs?id=p.2D.cu.IZNF2.bin.nc&amp;subset_time=2010-06-20T07:00:00Z&amp;subset_variable=Mesh1_Stroemungsgeschwindigkeit_m_3d&amp;subset_depth=true" xmlns:xlink="http://www.w3.org/1999/xlink" method="GET"/>
+</wps:Input>
+<wps:Input>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">mesProfileExtend</ows:Identifier>
+<wps:Reference mimeType="text/xml" xlink:href="http://mdi-test.baw.de/baw-wcs/wcs?id=Elbe_100620_depth1D.nc&amp;subset_time=2010-06-20T07:00:00Z&amp;subset_variable=velocity_magnitude&amp;subset_depth=true" xmlns:xlink="http://www.w3.org/1999/xlink" method="GET"/>
+</wps:Input>
+</wps:DataInputs>
+<wps:ResponseForm>
+<wps:ResponseDocument storeExecuteResponse="true">
+<wps:Output>
+<ows:Identifier xmlns:ows="http://www.opengis.net/ows/1.1">outputXML</ows:Identifier>
+<ows:Title xmlns:ows="http://www.opengis.net/ows/1.1"/>
+<ows:Abstract xmlns:ows="http://www.opengis.net/ows/1.1"/>
+</wps:Output>
+</wps:ResponseDocument>
+</wps:ResponseForm>
+</wps:Execute>

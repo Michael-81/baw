@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://n52.org/wps schema_v2.xsd" xmlns="http://n52.org/wps">
 	<Datahandlers>
 		<ParserList>
-                    <Parser name="GML3BasicParser"
+            <Parser name="GML3BasicParser"
 				className="org.n52.wps.io.datahandler.parser.GML3BasicParser"
 				active="true">
 				<Format mimetype="text/xml"
@@ -110,7 +110,6 @@
 				<Format mimetype="text/html" />
 				<Format mimetype="application/json" />
 				<Format mimetype="text/csv" />
-
 				<Format mimetype="application/rData" encoding="base64" />
 				<Format mimetype="application/rData+Spatial" encoding="base64" />
 				<Format mimetype="application/rData+SpatialPoints" encoding="base64" />
@@ -154,7 +153,6 @@
 				<Format mimetype="text/html" />
 				<Format mimetype="application/json" />
 				<Format mimetype="text/csv" />
-
 				<Format mimetype="application/rData" encoding="base64" />
 				<Format mimetype="application/rData+Spatial" encoding="base64" />
 				<Format mimetype="application/rData+SpatialPoints" encoding="base64" />
@@ -191,7 +189,6 @@
 				<Format mimetype="application/x-geotiff" encoding="base64" />
 				<Format mimetype="application/hdf4-eos" encoding="base64" />
 				<Format mimetype="text/plain" encoding="base64" />
-
 				<Format mimetype="application/img" />
 				<Format mimetype="image/tiff" />
 				<Format mimetype="image/geotiff" />
@@ -291,8 +288,7 @@
 				<Format mimetype="text/xml; subtype=gml/2.1.2"
 					schema="http://schemas.opengis.net/gml/2.1.2/feature.xsd" />
 			</Parser>
-                        
-                        <Parser name="WCPSQueryParser"
+            <Parser name="WCPSQueryParser"
 				className="org.n52.wps.io.datahandler.parser.WCPSQueryParser"
 				active="true">
 				<Format mimetype="text/plain"
@@ -333,7 +329,6 @@
 				<Format mimetype="application/rData+SpatialPoints" />
 				<Format mimetype="application/rData+SpatialPolygons" />
 				<Format mimetype="text/html" />
-
 				<Format mimetype="application/rData" encoding="base64" />
 				<Format mimetype="application/rData+Spatial" encoding="base64" />
 				<Format mimetype="application/rData+SpatialPoints" encoding="base64" />
@@ -353,32 +348,30 @@
 				<Format mimetype="application/hdf4-eos" encoding="base64" />
 				<Format mimetype="text/plain" encoding="base64" />
 			</Parser>
-                        
-                        <Parser name="GeoJSONParser"
+			<Parser name="GeoJSONParser"
 				className="org.n52.wps.io.datahandler.parser.GeoJSONParser"
 				active="true">
 				<Format mimetype="application/json"/>
-			</Parser>
-                        
-                        <Parser name="NetCDFParser" className="de.baw.wps.parser.NetCDFParser" active="true">
-                            <Format mimetype="application/x-netcdf"/>
-                        </Parser>
-      
-                        <Parser name="OMParser" className="de.baw.wps.parser.OMParser" active="true">
-                        <Format schema="http://schemas.opengis.net/om/2.0/observation.xsd" mimetype="text/xml"/>
-                        </Parser>
+			</Parser>           
+            <Parser name="NetCDFParser" className="de.baw.wps.parser.NetCDFParser" active="true">
+                <Format mimetype="application/x-netcdf"/>
+            </Parser>
+            <Parser name="OMParser" className="de.baw.wps.parser.OMParser" active="true">
+            	<Format schema="http://schemas.opengis.net/om/2.0/observation.xsd" mimetype="text/xml"/>
+            </Parser>
+            <Parser name="GMLCovParser" className="de.baw.wps.parser.GMLCovParser" active="true">
+            	<Format schema="http://schemas.opengis.net/gmlcov/1.0/gmlcovAll.xsd" mimetype="text/xml"/>
+            </Parser>
 		</ParserList>
 		<GeneratorList>
-                    <Generator name="WKTGenerator"
+            <Generator name="WKTGenerator"
 				className="org.n52.wps.io.datahandler.generator.WKTGenerator"
 				active="true">
 				<Format mimetype="application/wkt"/>
 			</Generator>
-		
 			<Generator name="JSONGeometryGenerator" className="org.n52.wps.io.datahandler.generator.JSONGeometryGenerator" active="true">
 				<Format mimetype="application/x-jsongeometry" encoding="UTF-8" />
-			</Generator>
-			
+			</Generator>	
 			<Generator name="GML3BasicGenerator"
 				className="org.n52.wps.io.datahandler.generator.GML3BasicGenerator"
 				active="true">
@@ -485,8 +478,7 @@
 				<Format mimetype="application/rData" encoding="base64" />
 				<Format mimetype="application/rData+Spatial" encoding="base64" />
 				<Format mimetype="application/rData+SpatialPoints" encoding="base64" />
-				<Format mimetype="application/rData+SpatialPolygons" encoding="base64" />
-				
+				<Format mimetype="application/rData+SpatialPolygons" encoding="base64" />		
 				<Format mimetype="application/rData" />
 				<Format mimetype="application/rData+Spatial" />
 				<Format mimetype="application/rData+SpatialPoints" />
@@ -535,8 +527,7 @@
 				<Format mimetype="application/rData" encoding="base64" />
 				<Format mimetype="application/rData+Spatial" encoding="base64" />
 				<Format mimetype="application/rData+SpatialPoints" encoding="base64" />
-				<Format mimetype="application/rData+SpatialPolygons" encoding="base64" />
-				
+				<Format mimetype="application/rData+SpatialPolygons" encoding="base64" />			
 				<Format mimetype="application/rData" />
 				<Format mimetype="application/rData+Spatial" />
 				<Format mimetype="application/rData+SpatialPoints" />
@@ -666,8 +657,7 @@
 				<Format mimetype="text/xml" />
 				<Format mimetype="text/xml; subtype=gml/2.1.2"
 					schema="http://schemas.opengis.net/gml/2.1.2/feature.xsd" />
-			</Generator>
-                        
+			</Generator>                      
 			<Generator name="WKTGenerator"
 				className="org.n52.wps.io.datahandler.generator.WKTGenerator"
 				active="true">
@@ -703,8 +693,7 @@
 				<Format mimetype="application/rData" encoding="base64" />
 				<Format mimetype="application/rData+Spatial" encoding="base64" />
 				<Format mimetype="application/rData+SpatialPoints" encoding="base64" />
-				<Format mimetype="application/rData+SpatialPolygons" encoding="base64" />
-				
+				<Format mimetype="application/rData+SpatialPolygons" encoding="base64" />			
 				<Format mimetype="application/rData" />
 				<Format mimetype="application/rData+Spatial" />
 				<Format mimetype="application/rData+SpatialPoints" />
@@ -729,40 +718,38 @@
 				<Format mimetype="application/zip" />
 				<Format mimetype="text/html" />
 			</Generator>
-                        <Generator name="OMGenerator" className="de.baw.wps.generator.OMGenerator" active="true">
-                            <Format mimetype="text/xml" schema="http://schemas.opengis.net/om/2.0/observation.xsd"/>
-                        </Generator>Ï
-                        
-                </GeneratorList>
+            <Generator name="OMGenerator" className="de.baw.wps.generator.OMGenerator" active="true">
+                <Format mimetype="text/xml" schema="http://schemas.opengis.net/om/2.0/observation.xsd"/>
+            </Generator>Ï
+            <Generator name="GMLCovGenerator" className="de.baw.wps.generator.GMLCovGenerator" active="true">
+                <Format mimetype="text/xml" schema="http://schemas.opengis.net/gmlcov/1.0/gmlcovAll.xsd"/>
+            </Generator>Ï            
+        </GeneratorList>
 	</Datahandlers>
 	<AlgorithmRepositoryList>
 		<Repository name="LocalAlgorithmRepository"
 			className="org.n52.wps.server.LocalAlgorithmRepository" active="true">
-                    	<Property name="Algorithm" active="true">de.baw.wps.aws1.BAWMasterProcess</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.BSpline</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.CompareTimeSeries</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.ComputeFFT</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.ComputeFFTOM</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.DataPreview</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.FormatTime</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.ReadNetCDF</Property>
-                        <Property name="Algorithm" active="true">de.baw.wps.aws1.ReadOM</Property>
-     					<Property name="Algorithm" active="true">de.baw.wps.aws1.CompareChain</Property>
-    					<Property name="Algorithm" active="true">de.baw.wps.aws1.FFTChain</Property>
-		</Repository>
-                
-                		<Repository name="UploadedAlgorithmRepository"
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.BAWMasterProcess</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.BSpline</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.CompareTimeSeries</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.ComputeFFT</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.ComputeFFTOM</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.DataPreview</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.FormatTime</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.ReadNetCDF</Property>
+            <Property name="Algorithm" active="true">de.baw.wps.aws1.ReadOM</Property>
+			<Property name="Algorithm" active="true">de.baw.wps.aws1.CompareChain</Property>
+			<Property name="Algorithm" active="true">de.baw.wps.aws1.FFTChain</Property>
+			<Property name="Algorithm" active="true">de.baw.wps.aws2.CompareProfiles</Property>
+		</Repository>          
+        <Repository name="UploadedAlgorithmRepository"
 			className="org.n52.wps.server.UploadedAlgorithmRepository" active="false">
 		</Repository>
-		
-		
 		<Repository name="ServiceLoaderAlgorithmRepository"
 			className="org.n52.wps.server.ServiceLoaderAlgorithmRepository" active="true">
-		</Repository>
-                
+		</Repository>          
   </AlgorithmRepositoryList>
 	<RemoteRepositoryList />
-	
 	<Server hostname="kfkiserver" hostport="8080"
 		includeDataInputsInResponse="false" computationTimeoutMilliSeconds="5"
 		cacheCapabilites="false" webappPath="wps" repoReloadInterval="0">
