@@ -75,10 +75,10 @@ public class CompareProfiles extends AbstractAnnotatedAlgorithm{
         gcd.setAxisLabelX("width");
         gcd.setAxisLabelY("depth");
         gcd.setDescription("desc");
-        gcd.setHigherLat("2");
-        gcd.setLowerLat("1");
-        gcd.setHigherLon("2");
-        gcd.setLowerLon("1");
+        gcd.setHighGridX(valueDifArray.length);
+        gcd.setLowGridX(1);
+        gcd.setHighGridY(valueDifArray[0].length);
+        gcd.setLowGridY(1);
         gcd.setMax(100);
         gcd.setMin(0);
         gcd.setTupleList(arrayToString(valueDifArray));
@@ -134,16 +134,17 @@ public class CompareProfiles extends AbstractAnnotatedAlgorithm{
 				
 				double divider = 1;
 				
-				if(index > 0){
-					value1 = valueMesArray[index-1][k];
-					divider = divider +1;
+				if(value2 != 0.0){
+					if(index > 0){
+						value1 = valueMesArray[index-1][k];
+						divider = divider +1;
+					}
+					if(index < valueMesArray.length-1){
+						value3 = valueMesArray[index+1][k];		
+						divider = divider +1;
+					}
 				}
-				if(index < valueMesArray.length-1){
-					value3 = valueMesArray[index+1][k];		
-					divider = divider +1;
-				}
-				
-				valueMesArray_filtered[i][k] = (value1+value2+value3)/divider;
+				valueMesArray_filtered[i][k] = Math.abs((value1+value2+value3)/divider);
 			}
 						
 		}
