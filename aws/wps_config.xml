@@ -740,6 +740,8 @@
             <Property name="Algorithm" active="true">de.baw.wps.aws1.ReadOM</Property>
 			<Property name="Algorithm" active="true">de.baw.wps.aws1.CompareChain</Property>
 			<Property name="Algorithm" active="true">de.baw.wps.aws1.FFTChain</Property>
+			<Property name="Algorithm" active="true">de.baw.wps.aws2.BAWMasterProcess</Property>
+			<Property name="Algorithm" active="true">de.baw.wps.aws2.MatchProfiles</Property>
 			<Property name="Algorithm" active="true">de.baw.wps.aws2.CompareProfiles</Property>
 		</Repository>          
         <Repository name="UploadedAlgorithmRepository"

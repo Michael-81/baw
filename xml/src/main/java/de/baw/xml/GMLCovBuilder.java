@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
 
 import net.opengis.gml.x32.BoundingShapeType;
@@ -193,6 +194,28 @@ public class GMLCovBuilder {
 		
 		return xmlOptions;
 		
+	}
+	
+	public GridCoverageDocument stringToDoc(String gcdString){
+		GridCoverageDocument gcd = null;
+		try {
+			gcd = GridCoverageDocument.Factory.parse(gcdString);
+		} catch (XmlException e) {
+			e.printStackTrace();
+		}
+		return gcd;
+	}
+	
+	public String docToString(GridCoverageDocument gcd){
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			gcd.save(baos, getXmlOptions());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+
+		return new String (baos.toByteArray());	
 	}
 
 }
