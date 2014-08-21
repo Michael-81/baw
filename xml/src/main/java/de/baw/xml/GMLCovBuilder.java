@@ -26,8 +26,6 @@ import net.opengis.gml.x32.GridLimitsType;
 import net.opengis.gml.x32.GridType;
 import net.opengis.gml.x32.LineStringSegmentDocument;
 import net.opengis.gml.x32.LineStringSegmentType;
-import net.opengis.gml.x32.QuantityDocument;
-import net.opengis.gml.x32.QuantityDocument.Quantity;
 import net.opengis.gml.x32.RangeSetType;
 import net.opengis.gmlcov.x10.AbstractDiscreteCoverageType;
 import net.opengis.gmlcov.x10.GridCoverageDocument;
@@ -35,6 +33,7 @@ import net.opengis.swe.x20.AllowedValuesPropertyType;
 import net.opengis.swe.x20.AllowedValuesType;
 import net.opengis.swe.x20.DataRecordPropertyType;
 import net.opengis.swe.x20.DataRecordType;
+import net.opengis.swe.x20.QuantityDocument;
 import net.opengis.swe.x20.QuantityType;
 import net.opengis.swe.x20.DataRecordType.Field;
 import net.opengis.swe.x20.RealPair;
@@ -144,11 +143,9 @@ public class GMLCovBuilder {
 		DataRecordPropertyType rangeType = gmlcov.addNewRangeType();
 		DataRecordType dataRecord = rangeType.addNewDataRecord();
 		Field field = dataRecord.addNewField();
-			
-		QuantityDocument quantityDoc = QuantityDocument.Factory.newInstance();
-		Quantity quantityO = quantityDoc.addNewQuantity();
-			
-		QuantityType quantity = QuantityType.Factory.newInstance();
+		
+		QuantityDocument quantityDoc = QuantityDocument.Factory.newInstance();							
+		QuantityType quantity = quantityDoc.addNewQuantity();
 		quantity.setDefinition(gcd.getVarName());
 		quantity.setDescription(gcd.getDescription());
 		UnitReference uom = quantity.addNewUom();
@@ -159,7 +156,6 @@ public class GMLCovBuilder {
 		RealPair interval = allowedValues.addNewInterval();
 		interval.setStringValue(gcd.getMin()+" "+gcd.getMax());
 		allowedValues.setSignificantFigures(BigInteger.valueOf(4));
-		quantityO.set(quantity);
 		
 		field.set(quantityDoc);
 		field.setName("Profile");

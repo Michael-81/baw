@@ -53,12 +53,12 @@ public class CompareProfiles extends AbstractAnnotatedAlgorithm{
 
 		
 		double[][] valueDifArray = compareValueArrays(valueModArray,valueMesArray_posFiltered);		
-		
+			
         GMLCovData gcd = new GMLCovData();
         gcd.setId("Difference Profile Values");
         gcd.setAxisLabelX("width");
         gcd.setAxisLabelY("depth");
-        gcd.setDescription("desc");
+        gcd.setDescription(GMLCovExplorer.getDescription(modProfileDoc));
         gcd.setHighGridX(valueDifArray.length);
         gcd.setLowGridX(1);
         gcd.setHighGridY(valueDifArray[0].length);
@@ -66,8 +66,8 @@ public class CompareProfiles extends AbstractAnnotatedAlgorithm{
         gcd.setMax(100);
         gcd.setMin(0);
         gcd.setTupleList(arrayToString(valueDifArray));
-        gcd.setUom("m");
-        gcd.setVarName("Velocity_Magnitude");
+        gcd.setUom(GMLCovExplorer.getUom(modProfileDoc));
+        gcd.setVarName(GMLCovExplorer.getDefinition(modProfileDoc));
         gcd.setCoordList("");
         
         this.outputXML = GMLCovBuilder.encode(gcd,"profile");
