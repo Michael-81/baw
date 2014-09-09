@@ -16,3 +16,4 @@ aws/build_baw.xml
 *.war
 *.ear
 */target/**
+/target/
