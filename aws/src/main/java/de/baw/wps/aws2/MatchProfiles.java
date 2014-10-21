@@ -91,14 +91,15 @@ public class MatchProfiles extends AbstractAnnotatedAlgorithm{
 		
 		for(int i = 0; i < depthModArray.length; i++){
 			double diff = 99999;
+			int nearestIndex = 0;
 			for(int j = 0; j < depthMesArray.length; j++){
-				if(Math.abs(depthModArray[i]-depthMesArray[j])<diff){
-					for(int k = 0; k < valueMesArray.length; k++){
-						valueMesArray_filtered[k][i]=valueMesArray[k][j];
-					}
-					
+				if(Math.abs(depthModArray[i]-depthMesArray[j])<diff){				
 					diff = Math.abs(depthModArray[i]-depthMesArray[j]);
+					nearestIndex = j;
 				}				
+			}
+			for(int k = 0; k < valueMesArray.length; k++){
+				valueMesArray_filtered[k][i]=valueMesArray[k][nearestIndex];
 			}
 			
 		}

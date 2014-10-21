@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 
+import net.opengis.om.x10.ObservationDocument;
 import net.opengis.om.x20.OMObservationDocument;
 import net.opengis.wps.x100.CapabilitiesDocument;
 import net.opengis.wps.x100.ExecuteDocument;
@@ -18,7 +19,11 @@ import net.opengis.wps.x100.OutputDataType;
 import net.opengis.wps.x100.OutputDescriptionType;
 import net.opengis.wps.x100.ProcessDescriptionType;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.geotools.feature.FeatureCollection;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.n52.wps.algorithm.annotation.Algorithm;
 import org.n52.wps.algorithm.annotation.ComplexDataInput;
 import org.n52.wps.algorithm.annotation.Execute;
@@ -32,47 +37,34 @@ import org.n52.wps.io.data.binding.complex.GTVectorDataBinding;
 import org.n52.wps.io.data.binding.complex.GenericFileDataBinding;
 import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
 import org.n52.wps.server.AbstractAnnotatedAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.baw.wps.binding.OMBinding;
+import de.baw.wps.binding.OMv1Binding;
 import de.baw.xml.OMdocBuilder;
 import de.baw.xml.OMexplorer;
 
-@Algorithm(version = "1.0.0", abstrakt="This process starts a process chain for comparison of model and measurement data")
-public class BAWMasterProcess extends AbstractAnnotatedAlgorithm{
+@Algorithm(version = "1.0.0", abstrakt="Process Chain to retrieve model and measured data.")
+public class DataPreviewCosyna extends AbstractAnnotatedAlgorithm{
 	private String dataLinkMeasurement, varNameMeasurement,startTime,endTime;
 	private String outputValuesModelInput="";
 	private String outputValuesMeasurementInput="";
-	private String outputValuesDifference="";
-	private String outputValuesFFTModel="";
-	private String outputValuesFFTMeasurement="";
-	private OMObservationDocument inputOM;
-	//private final String serverName="http://kfkiserver:8080";
-	private final String serverName="http://mdi-dienste.baw.de";
-		
-    @ComplexDataInput(identifier="inputOM", abstrakt="Reference to a O&M file (SOS getObservation)", binding=OMBinding.class)
+	private OMObservationDocument inputOMmod;
+	private ObservationDocument inputOMmes;
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(DataPreviewCosyna.class);
+	
+    @ComplexDataInput(identifier="inputOMmod", abstrakt="Reference to a O&M file (SOS getObservation)", binding=OMBinding.class)
     public void setModellNetCDF(OMObservationDocument om) {
-    	this.inputOM = om;
+    	this.inputOMmod = om;
     }
     
-	@LiteralDataInput(identifier="startTime", abstrakt="Beginning of the choosen time window")
-	public void setStartTime(String startTime) {
-	 this.startTime = startTime;
-	}
+    @ComplexDataInput(identifier="inputOMmes", abstrakt="Reference to a O&M file (SOS getObservation)", binding=OMv1Binding.class)
+    public void setModellNetCDF(ObservationDocument om) {
+    	this.inputOMmes = om;
+    }
 	
-	@LiteralDataInput(identifier="endTime", abstrakt="End of the choosen time window")
-	public void setEndTime(String endTime) {
-	 this.endTime = endTime;
-	}
-		
-	@LiteralDataInput(identifier="dataLinkMeasurement", abstrakt="Link to data file in NetCDF file format")
-	public void setDatalinkTwo(String dataLinkMeasurement) {
-	 this.dataLinkMeasurement = dataLinkMeasurement;
-	}
-	
-	@LiteralDataInput(identifier="varNameMeasurement", abstrakt="Name of the variable to be read from the NetCDF file")
-	public void setVarNameTwo(String varNameMeasurement) {
-	 this.varNameMeasurement = varNameMeasurement;
-	}
 	
 	@LiteralDataOutput(identifier = "outputValuesModelInput", abstrakt="Input model data in the O&M XML format", binding=LiteralStringBinding.class)
 	public String getOutputValuesModelInput() {
@@ -82,78 +74,13 @@ public class BAWMasterProcess extends AbstractAnnotatedAlgorithm{
 	public String getOutputValuesMeasurementInput() {
 	 return this.outputValuesMeasurementInput;
 	}
-	@LiteralDataOutput(identifier = "outputValuesDifference", abstrakt="Difference time series in the O&M XML format", binding=LiteralStringBinding.class)
-	public String getOutputValuesDifference() {
-	 return this.outputValuesDifference;
-	}
-	@LiteralDataOutput(identifier = "outputValuesFFTModel", abstrakt="Single side amplitude spectrum of the model data time series. O&M-XML", binding=LiteralStringBinding.class)
-	public String getOutputValuesFFTModel() {
-	 return this.outputValuesFFTModel;
-	}
-	@LiteralDataOutput(identifier = "outputValuesFFTMeasurement", abstrakt="Single side amplitude spectrum of the measurement data time series. O&M-XML", binding=LiteralStringBinding.class)
-	public String getOutputValuesFFTMeasurement() {
-	 return this.outputValuesFFTMeasurement;
-	}
 	
 	@Execute
 	public void executeChain(){
-		
-		//O&M XML wird in String gewandelt
-		String seriesModel = new OMdocBuilder().docToString(this.inputOM);
+			
+		this.outputValuesModelInput=new OMdocBuilder().docToString(inputOMmod);
+		this.outputValuesMeasurementInput=oM1toOM2();
 
-		//Einlesen der NetCDF-Datei
-		HashMap<String, Object> inputsMeasurement = new HashMap<String, Object>();
-		inputsMeasurement.put("inputNC",this.dataLinkMeasurement);
-		inputsMeasurement.put("varName", this.varNameMeasurement);
-		inputsMeasurement.put("startTime", this.startTime);
-		inputsMeasurement.put("endTime", this.endTime);
-		inputsMeasurement.put("metadataUUID", "");
-		String measurementData[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.aws1.ReadNetCDF",inputsMeasurement, "NC");
-				
-		//Harmonsieren der Zeitschritte mittels Spline Interpolation
-		HashMap<String, Object> inputsSpline = new HashMap<String, Object>();
-		inputsSpline.put("seriesModel",seriesModel);
-		inputsSpline.put("seriesConvert", measurementData[0]);
-		String splineData[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.aws1.BSpline",inputsSpline, "OC");
-					
-		//Berechnung der Differenz der Eingangszeitreihen
-		HashMap<String, Object> inputsDiff = new HashMap<String, Object>();
-		inputsDiff.put("seriesOne", seriesModel);
-		inputsDiff.put("seriesTwo", splineData[0]);
-		String diffData[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.aws1.CompareTimeSeries",inputsDiff, "OC");
-		
-//		//Frequenzanalyse der Modelldaten
-//		HashMap<String, Object> inputsFFT1 = new HashMap<String, Object>();
-//		inputsFFT1.put("seriesInput", seriesModel);
-//		String fftData1[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.aws1.ComputeFFT",inputsFFT1, "OC");
-//		
-		//Frequenzanalyse der Messdaten
-		HashMap<String, Object> inputsFFT2 = new HashMap<String, Object>();
-		inputsFFT2.put("seriesInput", splineData[0]);
-		String fftData2[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.aws1.ComputeFFT",inputsFFT2, "OC");		
-		//TEST: ComplexData (OMObservationDocument) statt LiteralData input
-		HashMap<String, Object> inputsFFT3 = new HashMap<String, Object>();
-		inputsFFT3.put("seriesInput", this.inputOM);
-		String fftData3[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.aws1.ComputeFFTOM",inputsFFT3, "OM");
-		
-		//Formatieren der Zeitangaben
-//		HashMap<String, Object> inputsFormat2 = new HashMap<String, Object>();
-//		inputsFormat2.put("timeSeries", measurementData[0]);
-//		inputsFormat2.put("timeFormat", "yyyy-MM-dd'T'HH:mm:ssZ");
-//		String formatData2[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.FormatTime",inputsFormat2, "OC");
-//
-//		HashMap<String, Object> inputsFormat3 = new HashMap<String, Object>();
-//		inputsFormat3.put("timeSeries", diffData[0]);
-//		inputsFormat3.put("timeFormat", "yyyy-MM-dd'T'HH:mm:ssZ");
-//		String formatData3[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.FormatTime",inputsFormat3, "OC");
-//
-//				
-		//Bevor die Ergebnisse zurueck gegeben werden, wird noch der Link auf die Prozesskettenbeschreibung generiert
-		this.outputValuesModelInput=seriesModel;
-		this.outputValuesMeasurementInput=writeProcedureLink(splineData[0]);
-		this.outputValuesDifference=writeProcedureLink(diffData[0]);
-		this.outputValuesFFTModel=writeProcedureLink(fftData3[0]);
-		this.outputValuesFFTMeasurement=writeProcedureLink(fftData2[0]);
 	}
 	
 	public String[] prepareExecute(String wpsURL, String processID, HashMap<String, Object> inputs, String type) {
@@ -277,46 +204,76 @@ public class BAWMasterProcess extends AbstractAnnotatedAlgorithm{
         throw new Exception("Exception: " + responseObject.toString());
     }
     
-    private String writeProcedureLink(String input){
-		OMdocBuilder omb = new OMdocBuilder();
-		OMObservationDocument om=omb.stringToDoc(input);
-		
-		String title = OMexplorer.getTitle(om);
-		String begin = OMexplorer.getBegin(om);
-	    String end = OMexplorer.getEnd(om);
-	    String now = OMexplorer.getResultTime(om);
-	    String processes = OMexplorer.getProcedure(om);
-		String parName=OMexplorer.getParameterName(om);
-		String units = OMexplorer.getUnits(om);
-		String observedProperty = OMexplorer.getObservedProperty(om);
-		String featureOfInterest = OMexplorer.getFeatureOfInterest(om);
-		List<Double> pos = OMexplorer.getPosition(om);
-		
-		BigInteger count = OMexplorer.getCount(om);
-		String values = OMexplorer.getValues(om);
-
-		//List<String> metadataUUIDsList = OMexplorer.getMetadataHref(om);
-			
-    	omb.setTitle(title);
-    	omb.setBegin(begin);
-    	omb.setEnd(end);
-    	omb.setNow(now);
-    	omb.setProcChainLink(serverName+"/RichWPS/getProcessChainDescription?parent=de.baw.wps.BAWMasterProcess&processes="+processes);
-    	omb.setParameterName(parName);
-    	omb.setUnits(units);
-    	omb.setNumber(count);
-    	omb.setValue(values);
-    	omb.setObservedProperty(observedProperty);
-    	omb.setFeatureOfInterest(featureOfInterest);
-    	//omb.setUUIDs(metadataUUIDs);
-    	omb.setLat(pos.get(0));
-    	omb.setLon(pos.get(1));
+private String oM1toOM2() {     
     	
-    	String xmlOutput=omb.encode();
-
+    	//http://sos.hzg.de/sos.py?request=GetObservation&service=SOS&offering=Pile_Hoernum1&observedProperty=Gauge&eventTime=2006-01-01T00:00:00Z/2006-12-31T23:59:59Z
+        
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			this.inputOMmes.save(baos, getXmlOptions());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 		
-		return xmlOutput;
-	
+		String inputString = new String (baos.toByteArray());	
+
+		String resultString = inputString.split("<om:result>")[1].split("</om:result>")[0];
+
+		String[] blocks = resultString.split("\\|");
+		String startTime = blocks[0].split(",")[0];
+		String endTime = blocks[blocks.length-1].split(",")[0];
+		double latDouble = Double.parseDouble(blocks[0].split(",")[1]);
+		double lonDouble = Double.parseDouble(blocks[0].split(",")[2]);
+		BigInteger count = BigInteger.valueOf(blocks.length);
+		
+		String outputValues ="";
+		for(int i = 0; i < blocks.length; i++){
+			String[] split = blocks[i].split(",");
+			double value = Double.parseDouble(split[4]);
+			outputValues+=split[0].replace("Z", "+0100")+","+(value-4)+";";
+		}
+		
+		if (outputValues.length()>0) {
+			outputValues = outputValues.substring(0, outputValues.length() - 1);
+		}
+				
+		DateTimeFormatter DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+		DateTime dt = new DateTime();
+    	OMdocBuilder omb = new OMdocBuilder();
+    	omb.setTitle(this.inputOMmes.getObservation().getName());
+    	omb.setBegin(startTime);
+    	omb.setEnd(endTime);
+    	omb.setNow(dt.toString(DateTimeFormatter));
+    	omb.setProcChainLink("de.baw.wps.ReadOMv1");
+    	omb.setParameterName("depth");
+    	omb.setObservedProperty(this.inputOMmes.getObservation().getObservedProperty().getHref());
+    	omb.setUnits("urn:ogc:unit:meter");
+    	omb.setNumber(count);
+    	omb.setValue(outputValues);
+    	omb.setLat(latDouble);
+    	omb.setLon(lonDouble);
+    	omb.setFeatureOfInterest(this.inputOMmes.getObservation().getFeatureOfInterest().getHref());
+    	   	
+        return omb.encode();
     }
+    
+	private XmlOptions getXmlOptions(){
+		XmlOptions xmlOptions = new XmlOptions();
+		xmlOptions.setSavePrettyPrint();
+		xmlOptions.setSavePrettyPrintIndent(3);
+		xmlOptions.setSaveAggressiveNamespaces();
+		xmlOptions.setCharacterEncoding("UTF-8");
+		HashMap<String, String> nsMap = new HashMap<String, String>();
+
+		nsMap.put("http://www.opengis.net/om/1.0.0", "om");
+		nsMap.put("http://www.opengis.net/gml/3.1.1", "gml");
+		nsMap.put("http://www.w3.org/1999/xlink", "xlink");
+		nsMap.put("http://www.opengis.net/swe/1.0.1", "swe");
+
+		xmlOptions.setSaveSuggestedPrefixes(nsMap);
+		
+		return xmlOptions;	
+	}
+
 
 }

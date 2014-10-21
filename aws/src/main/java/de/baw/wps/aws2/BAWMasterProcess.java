@@ -31,9 +31,8 @@ import org.n52.wps.io.data.binding.complex.GenericFileDataBinding;
 import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
 import org.n52.wps.server.AbstractAnnotatedAlgorithm;
 
-import de.baw.wps.binding.GMLCovBinding;
-import de.baw.wps.binding.OMBinding;
-import de.baw.xml.GMLCovBuilder;
+import de.baw.wps.binding.*;
+import de.baw.xml.*;
 
 @Algorithm(version = "1.0.0", abstrakt="This process starts a process chain for comparison of model and measurement profile data")
 public class BAWMasterProcess extends AbstractAnnotatedAlgorithm{

@@ -12,6 +12,7 @@ import org.n52.wps.algorithm.annotation.Algorithm;
 import org.n52.wps.algorithm.annotation.Execute;
 import org.n52.wps.algorithm.annotation.LiteralDataOutput;
 import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
+import org.n52.wps.server.AbstractAnnotatedAlgorithm;
 import org.n52.wps.algorithm.annotation.ComplexDataInput;
 
 import de.baw.fft.*;
@@ -20,7 +21,7 @@ import de.baw.xml.OMdocBuilder;
 import de.baw.xml.OMexplorer;
 
 @Algorithm(version = "1.0.0", abstrakt="Frequency analysis using FFT of the input time series")
-public class ComputeFFTOM {
+public class ComputeFFTOM extends AbstractAnnotatedAlgorithm {
 	
 	private String outputXML;
 	private OMObservationDocument omInput;

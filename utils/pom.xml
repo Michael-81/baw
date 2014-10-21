@@ -24,8 +24,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
@@ -59,6 +59,11 @@
             <groupId>edu.ucar</groupId>
             <artifactId>netcdf</artifactId>
             <version>4.2.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.n52.sensorweb</groupId>
+            <artifactId>52n-xml-om-v100</artifactId>
+            <version>1.1.5</version>
         </dependency>
         <dependency>
             <groupId>org.n52.sensorweb</groupId>

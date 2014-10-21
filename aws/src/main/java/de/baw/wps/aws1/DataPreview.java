@@ -32,6 +32,8 @@ import org.n52.wps.io.data.binding.complex.GTVectorDataBinding;
 import org.n52.wps.io.data.binding.complex.GenericFileDataBinding;
 import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
 import org.n52.wps.server.AbstractAnnotatedAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.baw.wps.binding.OMBinding;
 import de.baw.xml.OMdocBuilder;
@@ -43,6 +45,10 @@ public class DataPreview extends AbstractAnnotatedAlgorithm{
 	private String outputValuesModelInput="";
 	private String outputValuesMeasurementInput="";
 	private OMObservationDocument inputOM;
+	//private final String serverName=serverName+"";
+	private final String serverName="http://mdi-dienste.baw.de";
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(DataPreview.class);
 	
     @ComplexDataInput(identifier="inputOM", abstrakt="Reference to a O&M file (SOS getObservation)", binding=OMBinding.class)
     public void setModellNetCDF(OMObservationDocument om) {
@@ -87,12 +93,12 @@ public class DataPreview extends AbstractAnnotatedAlgorithm{
 		inputsMeasurement.put("startTime", this.startTime);
 		inputsMeasurement.put("endTime", this.endTime);
 		inputsMeasurement.put("metadataUUID", "");
-		String measurementData[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.ReadNetCDF",inputsMeasurement, "NC");
+		String measurementData[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.aws1.ReadNetCDF",inputsMeasurement, "NC");
 	
 //		HashMap<String, Object> inputsFormat2 = new HashMap<String, Object>();
 //		inputsFormat2.put("timeSeries", measurementData[0]);
 //		inputsFormat2.put("timeFormat", "yyyy-MM-dd'T'HH:mm:ssZ");
-//		String formatData2[] = prepareExecute("http://kfkiserver:8080/wps/WebProcessingService","de.baw.wps.FormatTime",inputsFormat2, "OC");
+//		String formatData2[] = prepareExecute(serverName+"/wps/WebProcessingService","de.baw.wps.FormatTime",inputsFormat2, "OC");
 //		
 		this.outputValuesModelInput=new OMdocBuilder().docToString(inputOM);
 		this.outputValuesMeasurementInput=writeProcedureLink(measurementData[0]);
@@ -142,7 +148,6 @@ public class DataPreview extends AbstractAnnotatedAlgorithm{
     }
 
     public String[] executeProcess(String url, String processID,ProcessDescriptionType processDescription,HashMap<String, Object> inputs, String inputType) throws Exception {
-        
     	org.n52.wps.client.ExecuteRequestBuilder executeBuilder = new org.n52.wps.client.ExecuteRequestBuilder(processDescription);
 
         for (InputDescriptionType input : processDescription.getDataInputs().getInputArray()) {
@@ -157,6 +162,9 @@ public class DataPreview extends AbstractAnnotatedAlgorithm{
                     @SuppressWarnings("rawtypes")
 					IData data = new GTVectorDataBinding((FeatureCollection) inputValue);
                     executeBuilder.addComplexData(inputName,data,"http://schemas.opengis.net/gml/3.1.1/base/feature.xsd",null,"text/xml");
+                }if (inputValue instanceof OMObservationDocument){
+                	IData data = new OMBinding((OMObservationDocument) inputValue);
+            		executeBuilder.addComplexData(inputName, data, "http://schemas.opengis.net/om/2.0/observation.xsd",null,"text/xml");
                 }
                 if (inputValue instanceof String) {
                 	if(inputType.equals("NC")){
@@ -170,14 +178,14 @@ public class DataPreview extends AbstractAnnotatedAlgorithm{
                 		try {
                 			stream = new ByteArrayInputStream(inputValue.toString().getBytes("UTF-8"));
                 		} catch (UnsupportedEncodingException e) {
-                			// TODO Auto-generated catch block
                 			e.printStackTrace();
                 		}
                 		
                 		IData data = new GenericFileDataBinding(new GenericFileData(stream,"text/xml"));
                        
-                		executeBuilder.addComplexData(inputName,data,"http://schemas.opengis.net/om/1.0.0/om.xsd","UTF-8","text/xml");
+                		executeBuilder.addComplexData(inputName,data,"http://schemas.opengis.net/om/2.0/observation.xsd","UTF-8","text/xml");
                 	}
+
                 }
 
                 if (inputValue == null && input.getMinOccurs().intValue() > 0) {
@@ -242,7 +250,7 @@ public class DataPreview extends AbstractAnnotatedAlgorithm{
     	omb.setBegin(begin);
     	omb.setEnd(end);
     	omb.setNow(now);
-    	omb.setProcChainLink("http://kfkiserver:8080/RichWPS/getProcessChainDescription?parent=de.baw.wps.BAWMasterProcess&processes="+processes);
+    	omb.setProcChainLink(serverName+"/RichWPS/getProcessChainDescription?parent=de.baw.wps.BAWMasterProcess&processes="+processes);
     	omb.setParameterName(parName);
     	omb.setUnits(units);
     	omb.setNumber(count);

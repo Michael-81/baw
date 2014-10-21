@@ -13,16 +13,21 @@ import org.n52.wps.algorithm.annotation.Execute;
 import org.n52.wps.algorithm.annotation.LiteralDataInput;
 import org.n52.wps.algorithm.annotation.LiteralDataOutput;
 import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
+import org.n52.wps.server.AbstractAnnotatedAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.baw.fft.*;
 import de.baw.xml.OMdocBuilder;
 import de.baw.xml.OMexplorer;
 
 @Algorithm(version = "1.0.0", abstrakt="Frequency analysis using FFT of the input time series")
-public class ComputeFFT {
+public class ComputeFFT extends AbstractAnnotatedAlgorithm {
 	
 	private String seriesInput, outputXML;
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(ComputeFFT.class);
 	
 	@LiteralDataInput(identifier="seriesInput", abstrakt="Time series with equidistant time steps. O&M-XML format is expected")
 	public void setSeriesInput(String seriesInput) {
@@ -37,6 +42,8 @@ public class ComputeFFT {
 	@Execute
 	public void runFFT() {
 		OMdocBuilder omb = new OMdocBuilder();
+		
+		LOGGER.info("ComputeFFT: "+seriesInput);
 		
 		//aus dem XML-String wird ein Document-Object geparst
 		OMObservationDocument omInput=omb.stringToDoc(seriesInput);

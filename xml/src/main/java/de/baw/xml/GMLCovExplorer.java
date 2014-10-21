@@ -1,11 +1,14 @@
 package de.baw.xml;
 
+import java.util.List;
+
 import org.apache.xmlbeans.XmlObject;
 
 import net.opengis.gml.x32.CoordinatesType;
 import net.opengis.gml.x32.DataBlockType;
 import net.opengis.gml.x32.DirectPositionListType;
 import net.opengis.gml.x32.DomainSetType;
+import net.opengis.gml.x32.GridEnvelopeType;
 import net.opengis.gml.x32.RangeSetType;
 import net.opengis.gmlcov.x10.AbstractDiscreteCoverageType;
 import net.opengis.gmlcov.x10.GridCoverageDocument;
@@ -13,6 +16,7 @@ import net.opengis.swe.x20.DataRecordType.Field;
 import net.opengis.swe.x20.DataRecordPropertyType;
 import net.opengis.swe.x20.DataRecordType;
 import net.opengis.swe.x20.QuantityType;
+import net.opengis.swe.x20.RealPair;
 
 
 public class GMLCovExplorer {
@@ -80,5 +84,30 @@ public class GMLCovExplorer {
 		QuantityType quantity= (QuantityType)quantityXML[0];
 		
 		return quantity.getUom().getCode();
+	}
+	
+	public static String getMinMaxValue(GridCoverageDocument gmlcovdoc){
+		AbstractDiscreteCoverageType gmlcov = (AbstractDiscreteCoverageType)gmlcovdoc.getAbstractCoverage();
+		
+		DataRecordPropertyType rangeType = gmlcov.getRangeType();
+		DataRecordType dataRecord = rangeType.getDataRecord();
+		Field field = dataRecord.getFieldArray(0);
+		
+		XmlObject[] quantityXML = field.selectPath(sweNamespaceDecl + "$this//swe:Quantity/swe:constraint/swe:AllowedValues/swe:interval");
+		RealPair interval= (RealPair)quantityXML[0];
+		
+		return interval.getStringValue();
+	}
+	
+	public static String getSize(GridCoverageDocument gmlcovdoc){
+		AbstractDiscreteCoverageType gmlcov = (AbstractDiscreteCoverageType)gmlcovdoc.getAbstractCoverage();
+		
+		DomainSetType domainSet = gmlcov.getDomainSet();
+		
+		XmlObject[] gridEnvelopeType = domainSet.selectPath(gmlNamespaceDecl + "$this//gml:Grid/gml:limits/gml:GridEnvelope");
+		GridEnvelopeType gridEnvelope = (GridEnvelopeType)gridEnvelopeType[0];
+		@SuppressWarnings("rawtypes")
+		List high = gridEnvelope.getHigh();
+		return ""+high.get(0)+high.get(1);
 	}
 }
