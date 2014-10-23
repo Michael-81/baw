@@ -751,14 +751,13 @@
 			className="org.n52.wps.server.ServiceLoaderAlgorithmRepository" active="true">
 		</Repository>       
 		
-		<Repository name="RichWpsRolaRepository"
+		 <Repository name="RichWpsRolaRepository"
 			className="org.n52.wps.transactional.service.GenericTransactionalProcessRepository"
 			active="true">
 			<Property name="GenericAlgorithm" active="true">net.disy.richwps.oe.RolaAlgorithm</Property>
 			<Property name="DeployManager" active="true">net.disy.richwps.oe.RolaLocalProcessManager</Property>
 			<Property name="WorkspaceLocationRoot"></Property>
 			<Property name="supportedFormat" active="true">rola</Property>
-			<Property name="DeploymentProfileClass" active="true">net.disy.richwps.oe.RolaDeploymentProfile</Property>
 			<SupportedDeploymentProfiles schema=""
 				repositoryName="RichWpsRolaRepository" />
 		</Repository>
